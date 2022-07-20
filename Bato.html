@@ -1,0 +1,2663 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <link href="https://styles.amarkcdn.com/img/batoto/favicon.ico?v0" rel="shortcut icon"/>
+    <link href="https://styles.amarkcdn.com/img/batoto/favicon.gif?v0" rel="icon" type="image/gif"/>
+          <link href="https://styles.amarkcdn.com/build/css-btoto-light.css?a88f825d299259e2be4d717cb27ebec5" type="text/css" rel="stylesheet"/>
+        
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" type="text/css" rel="stylesheet" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://styles.amarkcdn.com/eflag/base.css?v53" type="text/css" rel="stylesheet"/>
+    <link href="https://styles.amarkcdn.com/eflag/twtr.css?v53" type="text/css" rel="stylesheet" media="print" onload="this.media='all'"/>
+    <link href="https://styles.amarkcdn.com/emojis/twtr.css?v53" type="text/css" rel="stylesheet" media="print" onload="this.media='all'"/>
+      <title>BATO.TO - Read Manga Online</title>
+  <meta name="description" content="A manga reader for manga fans."/>
+  <meta name="keywords" content="manga, scanlation, translation"/>
+  </head>
+
+  <body class="body body-home">
+
+    <div id="app" class="wrapper wrapper-home">
+      <header id="header" class="header">
+  <div class="container-fluid container-max-width-xl">
+    <div class="w-100 d-flex flex-column flex-md-row align-items-center">
+
+      
+      <a class="brand" href="/">
+        <img src="//styles.amarkcdn.com/img/btoto/logo-batoto.png?v0" height="40" alt="BATO.TO"/>
+        
+        
+      </a>
+      
+
+      <nav class="mt-3 mt-md-0 ms-md-3 nav">
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/latest">Latest</a>
+        <a class="nav-link" href="/browse">Browse</a>
+        <a class="nav-link" href="/search">Search</a>
+      </nav>
+
+      
+      <form class="d-none d-lg-inline ms-auto me-3 form-inline search" method="GET" action="/search">
+        <input class="form-control" type="search" name="word" autocomplete="off" placeholder="Search">
+        <a class="d-inline-flex align-content-center align-items-center icon-random" href="/random">
+          <i class="fas fa-fw fa-random"></i>
+        </a>
+        <button class="btn btn-primary" type="submit">
+          <i class="fas fa-fw fa-search"></i>
+        </button>
+      </form>
+      
+
+      
+      <div class="mt-3 mt-md-0 ms-md-auto d-flex align-items-center user">
+
+        
+                  
+                                    <a class="ms-2" href="/my-history-by-device">
+            <i class="fas fa-fw fa-lg fa-history"></i>
+          </a>
+        
+        
+        <a class="ms-2 d-lg-none" href="/random">
+          <i class="fas fa-fw fa-lg fa-random"></i>
+        </a>
+
+                  <a class="ms-2" href="//publish.bato.to/">
+            <i class="fas fa-fw fa-lg fa-upload"></i>
+          </a>
+                          <a class="ms-2" href="https://mto.to/discord">
+            <i class="fab fa-fw fa-lg fa-discord"></i>
+          </a>
+        
+                  <a class="ms-2" href="/instructions">
+            <i class="fas fa-fw fa-lg fa-info-circle"></i>
+          </a>
+        
+        <a class="ms-2" href="/settings">
+                      <i class="fas fa-fw fa-lg fa-cog"></i>
+                  </a>
+        
+                  <a class="ms-2 avatar guest" href="//id.bato.to/login">
+            <i class="fas fa-fw fa-2x fa-user-circle"></i>
+          </a>
+                
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+</header>      <div id="mainer" class="mainer">
+        
+        
+        
+  <div class="container-fluid container-max-width-xl">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+          <div v-cloak v-if="localHistory_items.length" class="mt-4 pb-2 d-flex justify-content-between align-items-center line-b-f cursor-pointer" @click="localHistory_toggle">
+        <h4 class="m-0">
+          <span>My History</span>
+                  </h4>
+        <div v-cloak>
+          <i class="far fa-lg fa-caret-square-up" v-if="localHistory_show"></i>
+          <i class="far fa-lg fa-caret-square-down" v-if="!localHistory_show"></i>
+        </div>
+      </div>
+      <div v-cloak v-if="localHistory_items.length && localHistory_show">
+        <div id="my-history-list" class="mt-0 row row-cols-1 row-cols-sm-2 row-cols-lg-3 home-my-history">
+          <div v-for="item of localHistory_items" :key="item.iid" class="mt-2 col">
+            <div>
+              <a class="fw-bold text-ellipsis-1" :href="`/series/${item.sid}`" >${item._text_sub}</a>
+            </div>
+            <div class="mt-1 small">
+              <i class="fas fa-fw fa-history text-color-purple-500"></i>
+              <a class="ms-1 fw-bold" :href="`/chapter/${item.eid}`" >${item._text_epi}</a>
+              <em class="ms-1 text-muted">${item._time_ago}</em>
+            </div>
+            <div class="mt-1 small" v-if="localHistory_lastEpis[item.sid] && localHistory_lastEpis[item.sid].eid !== item.eid">
+              <i class="fas fa-fw fa-file-upload text-color-green-500"></i>
+              <a class="ms-1 fw-bold visited" :href="localHistory_lastEpis[item.sid].upath" >${localHistory_lastEpis[item.sid].short}</a>
+              <em class="ms-1 text-muted">${localHistory_lastEpis[item.sid].days_ago}</em>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 d-flex">
+          <div>
+            <a class="px-3 btn btn-sm btn-outline-primary" href="/my-history-by-device">
+              <i class="fas fa-wrench text-color-purple-500"></i>
+            </a>
+          </div>
+          <div class="ms-1 flex-grow-1 d-grid">
+            <button type="button" v-if="localHistory_loading == 0" class="btn btn-sm btn-outline-secondary" @click="localHistory_LoadMore">Load More</button>
+            <button type="button" v-if="localHistory_loading == 1" class="btn btn-sm btn-outline-secondary disabled">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </button>
+            <button type="button" v-if="localHistory_loading == 2" class="btn btn-sm btn-outline-secondary disabled">No More</button>
+          </div>
+        </div>
+
+      </div>
+    
+    
+      <div class="mt-4 d-flex justify-content-between line-b-f">
+        <h4>Popular Updates</h4>
+        
+      </div>
+      <div class="mt-4 row row-cols-3 row-cols-md-4 row-cols-lg-8 g-0 home-popular">
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/79849/golden-time" >
+              <img src="https://xfs-223.batcg.com/thumb/W300/ampi/702/702ebdcfa75ecf60c74df75a356b2b6c1335795a_420_610_269985.jpg?acc=108xorHed1XMSsus_VXAIw&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/79849/golden-time" >Golden Time</a>
+                <a class="item-volch" href="/chapter/2011267" >Ch.103</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/99998/contractual-marriage-to-a-surly-duke" >
+              <img src="https://xfs-227.batcg.com/thumb/W300/ampi/fed/fed014568666cbdd1292021720f04818642f9fdc_400_600_55345.jpeg?acc=AKsd3SZaOemPaSteSmgkIg&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/99998/contractual-marriage-to-a-surly-duke" >Contractual Marriage to a Surly Duke</a>
+                <a class="item-volch" href="/chapter/2011266" >Ch.41</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/81013/caught-by-the-villain" >
+              <img src="https://xfs-226.batcg.com/thumb/W300/ampi/422/42248be4c6223feabb6f7dd9e187c66c0aa42621_420_610_128633.jpeg?acc=sqg4_dGJGb68YIIbFuM2ig&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/81013/caught-by-the-villain" >Caught by the Villain</a>
+                <a class="item-volch" href="/chapter/2011265" >Ch.90</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/102889/lessons-in-seduction-with-a-classy-duke" >
+              <img src="https://xfs-222.batcg.com/thumb/W300/ampi/828/828371778a1ae6d34e1ce023151d578c1bd1d86d_420_610_138477.jpeg?acc=RdumixwERqkvJs1xrC513A&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/102889/lessons-in-seduction-with-a-classy-duke" >Lessons in Seduction with a Classy Duke</a>
+                <a class="item-volch" href="/chapter/2011261" >Ch.24</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/81388/wake-up-warrior" >
+              <img src="https://xfs-210.batcg.com/thumb/W300/ampi/532/53236e9cf04d1eeaa55138ce1a60841818d3d296_480_690_72510.jpg?acc=g6YtpAgyAbkKtDfud7D8bg&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/81388/wake-up-warrior" >Wake Up, Warrior</a>
+                <a class="item-volch" href="/chapter/2011260" >Ch.68</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/107254/surrender-to-the-serpent-goddess" >
+              <img src="https://xfs-222.batcg.com/thumb/W300/ampi/e44/e4400c5a8b56ea7aa9caa29d845894600bbcb922_512_728_178613.jpeg?acc=Cz4xbmqCnzBBzjXnvdl-_g&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/107254/surrender-to-the-serpent-goddess" >Surrender to the Serpent Goddess</a>
+                <a class="item-volch" href="/chapter/2011253" >Ch.18</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/103414/my-only-1" >
+              <img src="https://xfs-210.batcg.com/thumb/W300/ampi/c2b/c2b3a3ad3a89c5bf32eb19cbce525d6abfe54cfb_420_610_92527.jpeg?acc=66JddPtLRUDLCrkmTm8wTg&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/103414/my-only-1" >My Only 1</a>
+                <a class="item-volch" href="/chapter/2011250" >Ch.23</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/80953/just-for-a-meowment" >
+              <img src="https://xfs-204.batcg.com/thumb/W300/ampi/ec6/ec6e8af9db2cb9782c745f81fb094ebd8b1ea105_600_800_133525.jpeg?acc=eNO4yiWLi_BhAzplBjR9Bg&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/80953/just-for-a-meowment" >Just for a Meowment</a>
+                <a class="item-volch" href="/chapter/2011249" >Ch.92</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/94965/i-don-t-love-you-anymore-official" >
+              <img src="https://xfs-221.batcg.com/thumb/W300/ampi/f99/f999787a9626725949ff2b0ebf132cb8bd6ddd4d_720_960_680674.jpeg?acc=MwjM7ew2wT8I5KfjaPpmTw&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/94965/i-don-t-love-you-anymore-official" >I Don&#39;t Love You Anymore (Official)</a>
+                <a class="item-volch" href="/chapter/2011248" >Ch.45</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/103837/i-can-t-keep-up-with-my-stallion-duke" >
+              <img src="https://xfs-210.batcg.com/thumb/W300/ampi/31c/31c69510e4debf7f84bcf084ecd02a3b80246d07_512_728_212109.jpeg?acc=l_CqVkMEzk0JPkGDR_EKaw&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/103837/i-can-t-keep-up-with-my-stallion-duke" >I Can&#39;t Keep Up With My Stallion Duke</a>
+                <a class="item-volch" href="/chapter/2011246" >Ch.27</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/94756/his-majesty-is-mine-official" >
+              <img src="https://xfs-209.batcg.com/thumb/W300/ampi/f4d/f4dfe771e6c084aea43241de0264fda10fa613ce_720_960_147395.jpeg?acc=W-nJWxEZfIHpn7R9khOwWQ&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/94756/his-majesty-is-mine-official" >His Majesty is Mine (Official)</a>
+                <a class="item-volch" href="/chapter/2011244" >Chapter 43 [END]</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/83220/flower-and-the-beast-official" >
+              <img src="https://xfs-205.batcg.com/thumb/W300/ampi/286/286310930e68bbea0fcf389fcfac93a5af0f1604_512_728_192092.jpeg?acc=2Qb7hFDGVhXyS6fpMml1sA&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/83220/flower-and-the-beast-official" >Flower and the Beast [Official]</a>
+                <a class="item-volch" href="/chapter/2011243" >Ch.108</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/103300/lies-become-you" >
+              <img src="https://xfs-202.batcg.com/thumb/W300/ampi/818/8187cd7f81256384eb85d3b2a87011196def8fb0_480_690_127889.jpeg?acc=j5ZLIBMp3zo1t00PQRsrdQ&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/103300/lies-become-you" >Lies Become You</a>
+                <a class="item-volch" href="/chapter/2011237" >Ch.25</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/87677/villain-duke-s-precious-one" >
+              <img src="https://xfs-203.batcg.com/thumb/W300/ampi/67a/67ade5fa428cddfd6e27b246de11fcda8790b332_400_600_60308.jpeg?acc=XJ--RRVMXlDfsOiELBdkNQ&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/87677/villain-duke-s-precious-one" >Villain Duke&#39;s Precious One</a>
+                <a class="item-volch" href="/chapter/2011235" >Ch.72</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/98642/the-boomerang-duke" >
+              <img src="https://xfs-200.batcg.com/thumb/W300/ampi/353/353d027674c57178643d0ce452f0deabf86d4335_420_610_129204.jpeg?acc=5MsmC7ZbNESeSOgruuO9CQ&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/98642/the-boomerang-duke" >The Boomerang Duke</a>
+                <a class="item-volch" href="/chapter/2011234" >Ch.28</a>
+              </div>
+            </div>
+            
+                      </div>
+        
+                                
+                    <div class="col item">
+            <a class="item-cover" href="/series/106600/stealing-the-lady-s-heart" >
+              <img src="https://xfs-207.batcg.com/thumb/W300/ampi/cde/cde9a5089fd0d2bbb505efa96f2a03a2a261eed1_400_600_50702.jpeg?acc=d3gi-nTdT1xtD1GogksqGg&amp;exp=1658358048"/>
+            </a>
+            <div class="item-text">
+              <div class="item-text-inner">
+                <a class="item-title" href="/series/106600/stealing-the-lady-s-heart" >Stealing the Lady&#39;s Heart</a>
+                <a class="item-volch" href="/chapter/2011233" >Ch.17</a>
+              </div>
+            </div>
+            
+                      </div>
+              </div>
+    
+    <div class="mt-4 d-flex justify-content-between line-b-f">
+      <h4>Latest Releases</h4>
+      <a href="/rss/latest.xml">
+        <i class="fas fa-fw fa-rss"></i>
+      </a>
+    </div>
+    <div id="series-list" class="mt-0 row row-cols-1 row-cols-sm-2 row-cols-lg-3 series-list">
+              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/80306/guardians-of-the-lamb" >
+    <img src="https://xfs-203.batcg.com/thumb/W300/ampi/960/960e26706b8ccad9f54f606f0f986d27d0fd0bae_840_1120_173189.jpeg?acc=ALbgGbAmNEOcuofwYgvn3Q&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/80306/guardians-of-the-lamb" >Guardians of the Lamb</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Action</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Mystery</span>
+                  , 
+          <span>Reverse Harem</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011268" >Ch.102</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>3 secs ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/79849/golden-time" >
+    <img src="https://xfs-223.batcg.com/thumb/W300/ampi/702/702ebdcfa75ecf60c74df75a356b2b6c1335795a_420_610_269985.jpg?acc=108xorHed1XMSsus_VXAIw&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/79849/golden-time" >Golden Time</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Crossdressing</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Tragedy</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011267" >Ch.103</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>8 secs ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/99998/contractual-marriage-to-a-surly-duke" >
+    <img src="https://xfs-227.batcg.com/thumb/W300/ampi/fed/fed014568666cbdd1292021720f04818642f9fdc_400_600_55345.jpeg?acc=AKsd3SZaOemPaSteSmgkIg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/99998/contractual-marriage-to-a-surly-duke" >Contractual Marriage to a Surly Duke</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Time Travel</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011266" >Ch.41</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>15 secs ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/81013/caught-by-the-villain" >
+    <img src="https://xfs-226.batcg.com/thumb/W300/ampi/422/42248be4c6223feabb6f7dd9e187c66c0aa42621_420_610_128633.jpeg?acc=sqg4_dGJGb68YIIbFuM2ig&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81013/caught-by-the-villain" >Caught by the Villain</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Crossdressing</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Magic</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011265" >Ch.90</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>21 secs ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/103628/the-goddess-s-taste" >
+    <img src="https://xfs-202.batcg.com/thumb/W300/ampi/e47/e475a9f30f4d4337fe5216c5e1639339bbd6b83b_616_832_172390.jpeg?acc=fHfM-ear-_IIo3WzN_gqsg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103628/the-goddess-s-taste" >The Goddess&#39;s Taste</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Childhood Friends</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011264" >Ch.44</a>
+        <div>
+          
+                          <a class="me-2" href="/user/735299/honeyyyy">
+                <img class="rounded-circle avatar-sm" src="https://xfs-202.batcg.com/image/amav/0cc/62bbc7600613ea94bdfedcc0.jpg?acc=mAIcyobYXC9PuA1DD_jBtQ&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>3 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b">
+  <a class="item-cover" href="/series/108536/trixie-penjinak-pangeran" >
+    <img src="https://xfs-227.batcg.com/thumb/W300/ampi/468/4680af6352fb8e8b4abc6cafa57d31ea2a0c51a7_717_1035_327655.jpeg?acc=grCShNW6keZhHa6R3rsc5w&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/108536/trixie-penjinak-pangeran" >Trixie penjinak pangeran</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>English</span>
+              
+                      , 
+          <span>Manhwa</span>
+                                    , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011263" >Ch.8</a>
+        <div>
+          
+                          <a class="me-2" href="/user/1075245/scavankey">
+                <img class="rounded-circle avatar-sm" src="https://xfs-228.batcg.com/image/amav/fb0/62cd4b6587449bd17387a0bf.jpg?acc=AJcrOkV97X8At1fkDq_Bbg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>3 mins ago</i>
+        </div>
+      </div>
+    
+    
+          <em class="eflag flag-indonesia s125 item-flag" data-lang="id"></em>
+      </div>
+</div>              
+  
+<div class="col item line-b">
+  <a class="item-cover" href="/series/107852/the-kang-s-yeesu-momo-bangke" >
+    <img src="https://xfs-223.batcg.com/thumb/W300/ampi/187/187af042f7e995dae7e0776f68e339632a496d7a_600_800_67408.jpeg?acc=VCo5lxobjMNcbkY2e1f16g&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/107852/the-kang-s-yeesu-momo-bangke" >The Kang&#39;s Yeesu (Momo bangke)</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Yaoi</u>
+                        , 
+          <b>Adult</b>
+                  , 
+          <b>Mature</b>
+                  , 
+          <b>Smut</b>
+                        , 
+          <span>Comedy</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Office Workers</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011262" >Chapter 16</a>
+        <div>
+          
+                          <a class="me-2" href="/user/884964/momobangke123">
+                <img class="rounded-circle avatar-sm" src="https://xfs-206.batcg.com/image/amav/1ef/629b0e0bc21b40851822cfe1.jpg?acc=xRd33zTIFtvqD3XfFfl-fw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>6 mins ago</i>
+        </div>
+      </div>
+    
+    
+          <em class="eflag flag-indonesia s125 item-flag" data-lang="id"></em>
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/102889/lessons-in-seduction-with-a-classy-duke" >
+    <img src="https://xfs-222.batcg.com/thumb/W300/ampi/828/828371778a1ae6d34e1ce023151d578c1bd1d86d_420_610_138477.jpeg?acc=RdumixwERqkvJs1xrC513A&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/102889/lessons-in-seduction-with-a-classy-duke" >Lessons in Seduction with a Classy Duke</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                        , 
+          <b>Smut</b>
+                        , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>SM/BDSM/SUB-DOM</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011261" >Ch.24</a>
+        <div>
+          
+                          <a class="me-2" href="/user/377717/vikija">
+                <img class="rounded-circle avatar-sm" src="https://xfs-212.batcg.com/image/amav/a9b/620069d510f8571f4deffb9a.jpg?acc=4qFhMuy__bnnxYG0xjRpIQ&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>11 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/81388/wake-up-warrior" >
+    <img src="https://xfs-210.batcg.com/thumb/W300/ampi/532/53236e9cf04d1eeaa55138ce1a60841818d3d296_480_690_72510.jpg?acc=g6YtpAgyAbkKtDfud7D8bg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81388/wake-up-warrior" >Wake Up, Warrior</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Adventure</span>
+                  , 
+          <span>Beasts</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Reverse Harem</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011260" >Ch.68</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>15 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/87209/vampire-of-the-east" >
+    <img src="https://xfs-202.batcg.com/thumb/W300/ampi/6bf/6bf6c68ecaba7a1eedc1e596be3b4f86a2d984d7_512_728_168224.jpeg?acc=bh9JUQLz08ojdZ6uQibjrg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/87209/vampire-of-the-east" >Vampire of the East</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Crossdressing</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Gender Bender</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Mystery</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Supernatural</span>
+                  , 
+          <span>Vampires</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011259" >Ch.84</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>15 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-new no-flag">
+  <a class="item-cover" href="/series/108765/mustache-suspender" >
+    <img src="https://xfs-211.batcg.com/thumb/W300/ampi/de7/de7050f0c4632f6dfa16d750366f690e6e2e7a65_647_988_382150.jpeg?acc=bKGJ6MVAX4ZuDjrM_XscIQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/108765/mustache-suspender" >Mustache &amp; Suspender</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>English</span>
+              
+                      , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shounen</u>
+                              , 
+          <span>Adventure</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Historical</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011258" >Ch.1</a>
+        <div>
+          
+                          <a class="me-2" href="/user/619947/nzight">
+                <img class="rounded-circle avatar-sm" src="https://xfs-200.batcg.com/image/amav/1e0/62d19d3787449bd17387e0e1.jpg?acc=5z_fMirsXoSRSdlBjJHXDw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>15 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/92578/vampire-next-door" >
+    <img src="https://xfs-202.batcg.com/thumb/W300/ampi/3b5/3b5200f54cd57afbcd0f17d200315a0fafa145be_720_972_298554.jpeg?acc=FxsvwIGKJ5bj7hkP-p_h2A&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/92578/vampire-next-door" >Vampire Next Door</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Fantasy</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Vampires</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011257" >Ch.64</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/106028/the-script" >
+    <img src="https://xfs-208.batcg.com/thumb/W300/ampi/e8c/e8c1871bb6a9f5a3dbf6be39a5a45c133a8c3b05_480_690_90558.jpeg?acc=x4tK0XLjaP422M0om4RGyg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/106028/the-script" >The Script</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Demons</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011256" >Ch.21</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/81674/the-boss-s-shotgun-wedding" >
+    <img src="https://xfs-221.batcg.com/thumb/W300/ampi/301/30100a67f9f2ee21321376356f7a29c86c94d56a_512_728_175938.jpeg?acc=ZoGMhOZV3YmT3tS_4CLhPw&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81674/the-boss-s-shotgun-wedding" >The Boss&#39;s Shotgun Wedding</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Chinese</span>
+              
+                      , 
+          <span>Manhua</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Slice of Life</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011255" >Ch.317</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/87189/the-13th-night" >
+    <img src="https://xfs-223.batcg.com/thumb/W300/ampi/2ec/2ec7060f347b64dd1a565e20bfbf6ce6a1978c37_350_490_59161.jpeg?acc=kYpte56Xy32-GTMfgNLw4Q&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/87189/the-13th-night" >The 13th Night</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011254" >Ch.72</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/107254/surrender-to-the-serpent-goddess" >
+    <img src="https://xfs-222.batcg.com/thumb/W300/ampi/e44/e4400c5a8b56ea7aa9caa29d845894600bbcb922_512_728_178613.jpeg?acc=Cz4xbmqCnzBBzjXnvdl-_g&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/107254/surrender-to-the-serpent-goddess" >Surrender to the Serpent Goddess</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Japanese</span>
+              
+                      , 
+          <span>Manga</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                        , 
+          <b>Smut</b>
+                        , 
+          <span>Demons</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011253" >Ch.18</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/81301/pure-love-incubus" >
+    <img src="https://xfs-222.batcg.com/thumb/W300/ampi/2be/2bed964a0a550c35c3ecc7187b4893291388116c_512_728_160920.jpeg?acc=d3BywLeQjd2ag4mzw2EpaA&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81301/pure-love-incubus" >Pure Love Incubus</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Japanese</span>
+              
+                      , 
+          <span>Manga</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Comedy</span>
+                  , 
+          <span>Demons</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011252" >Ch.97</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/103254/office-gods" >
+    <img src="https://xfs-225.batcg.com/thumb/W300/ampi/5fa/5fa4c4156f0287845335363a0160658a76dbced3_400_600_56643.jpeg?acc=5w86h6FDC0jHniA8QTMQew&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103254/office-gods" >Office Gods</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>English</span>
+              
+                      , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Comedy</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Office Workers</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011251" >Ch.28</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/103414/my-only-1" >
+    <img src="https://xfs-210.batcg.com/thumb/W300/ampi/c2b/c2b3a3ad3a89c5bf32eb19cbce525d6abfe54cfb_420_610_92527.jpeg?acc=66JddPtLRUDLCrkmTm8wTg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103414/my-only-1" >My Only 1</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                        , 
+          <b>Smut</b>
+                        , 
+          <span>Age Gap</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Slice of Life</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011250" >Ch.23</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>16 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/80953/just-for-a-meowment" >
+    <img src="https://xfs-204.batcg.com/thumb/W300/ampi/ec6/ec6e8af9db2cb9782c745f81fb094ebd8b1ea105_600_800_133525.jpeg?acc=eNO4yiWLi_BhAzplBjR9Bg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/80953/just-for-a-meowment" >Just for a Meowment</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Animals</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Office Workers</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Slice of Life</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011249" >Ch.92</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/94965/i-don-t-love-you-anymore-official" >
+    <img src="https://xfs-221.batcg.com/thumb/W300/ampi/f99/f999787a9626725949ff2b0ebf132cb8bd6ddd4d_720_960_680674.jpeg?acc=MwjM7ew2wT8I5KfjaPpmTw&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/94965/i-don-t-love-you-anymore-official" >I Don&#39;t Love You Anymore (Official)</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011248" >Ch.45</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/81855/i-don-t-like-that-smile" >
+    <img src="https://xfs-209.batcg.com/thumb/W300/ampi/a6e/a6e5155465bdb4d0d942d311222d6ea722f24887_512_728_163610.jpeg?acc=D7nAqNJvzJBc5yyeKgdw_Q&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81855/i-don-t-like-that-smile" >I Don&#39;t Like That Smile</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Japanese</span>
+              
+                      , 
+          <span>Manga</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Drama</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>School Life</span>
+                  , 
+          <span>Slice of Life</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011247" >Ch.119</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/103837/i-can-t-keep-up-with-my-stallion-duke" >
+    <img src="https://xfs-210.batcg.com/thumb/W300/ampi/31c/31c69510e4debf7f84bcf084ecd02a3b80246d07_512_728_212109.jpeg?acc=l_CqVkMEzk0JPkGDR_EKaw&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103837/i-can-t-keep-up-with-my-stallion-duke" >I Can&#39;t Keep Up With My Stallion Duke</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Time Travel</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011246" >Ch.27</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/105654/how-to-be-the-chosen-one" >
+    <img src="https://xfs-210.batcg.com/thumb/W300/ampi/413/413d438005d0ef8965f44c0e7eefbf0d32c62898_720_960_948379.jpeg?acc=Eq42Me7MnmjrYVkTjlPJNA&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/105654/how-to-be-the-chosen-one" >How to Be the Chosen One</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Yaoi</u>
+                        , 
+          <b>Mature</b>
+                  , 
+          <b>Smut</b>
+                        , 
+          <span>Comedy</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Harem</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011245" >Ch.14</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/94756/his-majesty-is-mine-official" >
+    <img src="https://xfs-209.batcg.com/thumb/W300/ampi/f4d/f4dfe771e6c084aea43241de0264fda10fa613ce_720_960_147395.jpeg?acc=W-nJWxEZfIHpn7R9khOwWQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/94756/his-majesty-is-mine-official" >His Majesty is Mine (Official)</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                        , 
+          <b>Smut</b>
+                        , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011244" >Chapter 43 [END]</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/83220/flower-and-the-beast-official" >
+    <img src="https://xfs-205.batcg.com/thumb/W300/ampi/286/286310930e68bbea0fcf389fcfac93a5af0f1604_512_728_192092.jpeg?acc=2Qb7hFDGVhXyS6fpMml1sA&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/83220/flower-and-the-beast-official" >Flower and the Beast [Official]</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011243" >Ch.108</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/81114/class-maid" >
+    <img src="https://xfs-227.batcg.com/thumb/W300/ampi/31e/31e1c0df4ad1f01a334676ad5673ff5640bfcc81_512_728_180090.jpeg?acc=MvBtORRNIRXyXFReSaq-hQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/81114/class-maid" >Class Maid</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Japanese</span>
+              
+                      , 
+          <span>Manga</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Comedy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>School Life</span>
+                  , 
+          <span>Slice of Life</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011242" >Ch.127</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/80026/an-inescapable-love" >
+    <img src="https://xfs-222.batcg.com/thumb/W300/ampi/b01/b01cf30af5961ed0f6c1002a8085b85c25bfdda6_420_610_250258.jpg?acc=bT5Zn98zFZJqTwB5mqwvpA&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/80026/an-inescapable-love" >An Inescapable Love</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Magic</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Supernatural</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011241" >Ch.103</a>
+        <div>
+          
+                          <a class="me-2" href="/user/309083/user.309083">
+                <img class="rounded-circle avatar-sm" src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>17 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b">
+  <a class="item-cover" href="/series/99948/daepyo-nim-tampan-ruby" >
+    <img src="https://xfs-207.batcg.com/thumb/W300/ampi/24c/24c2eb9eab2d0526570411111bacc850dabc2f5b_720_972_176347.jpeg?acc=NZ_LeWAFx2Jf7OjwwS08vQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/99948/daepyo-nim-tampan-ruby" >Daepyo-nim Tampan  [RUBY]</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                            , 
+          <u>Josei</u>
+                              , 
+          <span>Full Color</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Slice of Life</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011239" >Ch.44</a>
+        <div>
+          
+                          <a class="me-2" href="/user/784374/ruby_07">
+                <img class="rounded-circle avatar-sm" src="https://xfs-209.batcg.com/image/amav/890/61d24611e4cfc4f8b79ed098.jpg?acc=SkuKksCu3eBLTAoeMnzTYw&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>19 mins ago</i>
+        </div>
+      </div>
+    
+    
+          <em class="eflag flag-indonesia s125 item-flag" data-lang="id"></em>
+      </div>
+</div>              
+  
+<div class="col item line-b">
+  <a class="item-cover" href="/series/108409/chainsawman-s2" >
+    <img src="https://xfs-222.batcg.com/thumb/W300/ampi/c0d/c0d55c7abd9a304e4054889de2d83b6bbbf83e8d_720_1020_376159.jpeg?acc=wIH2TvBgD43k7s-tf_Uynw&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/108409/chainsawman-s2" >Chainsawman S2</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Japanese</span>
+              
+                      , 
+          <span>Manga</span>
+                        , 
+          <u>Shounen</u>
+                        , 
+          <b>Gore</b>
+                        , 
+          <span>Demons</span>
+                  , 
+          <span>Martial Arts</span>
+                  , 
+          <span>Police</span>
+                  , 
+          <span>Psychological</span>
+                  , 
+          <span>Survival</span>
+                  , 
+          <span>Tragedy</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011238" >Ch.99</a>
+        <div>
+          
+                          <a class="me-2" href="/user/1001120/roxyandrose">
+                <img class="rounded-circle avatar-sm" src="https://xfs-205.batcg.com/image/amav/2d6/625e212ba7dd7a60d30526d2.jpg?acc=DR8Tz-wCTq6TzsGIToz4WA&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>20 mins ago</i>
+        </div>
+      </div>
+    
+    
+          <em class="eflag flag-indonesia s125 item-flag" data-lang="id"></em>
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/103300/lies-become-you" >
+    <img src="https://xfs-202.batcg.com/thumb/W300/ampi/818/8187cd7f81256384eb85d3b2a87011196def8fb0_480_690_127889.jpeg?acc=j5ZLIBMp3zo1t00PQRsrdQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103300/lies-become-you" >Lies Become You</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011237" >Ch.25</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b no-flag">
+  <a class="item-cover" href="/series/103500/the-archvillain-s-daughter-in-law" >
+    <img src="https://xfs-207.batcg.com/thumb/W300/ampi/4a9/4a96be635090c88ec7c5b51838ac5b29dcd573a4_400_600_50421.jpeg?acc=uf7yynIVjEdDWYKCUmWPoA&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/103500/the-archvillain-s-daughter-in-law" >The Archvillain&#39;s Daughter in Law</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Kids</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011236" >Ch.6</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/87677/villain-duke-s-precious-one" >
+    <img src="https://xfs-203.batcg.com/thumb/W300/ampi/67a/67ade5fa428cddfd6e27b246de11fcda8790b332_400_600_60308.jpeg?acc=XJ--RRVMXlDfsOiELBdkNQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/87677/villain-duke-s-precious-one" >Villain Duke&#39;s Precious One</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Demons</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Isekai</span>
+                  , 
+          <span>Kids</span>
+                  , 
+          <span>Magic</span>
+                  , 
+          <span>Reincarnation</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011235" >Ch.72</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/98642/the-boomerang-duke" >
+    <img src="https://xfs-200.batcg.com/thumb/W300/ampi/353/353d027674c57178643d0ce452f0deabf86d4335_420_610_129204.jpeg?acc=5MsmC7ZbNESeSOgruuO9CQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/98642/the-boomerang-duke" >The Boomerang Duke</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                        , 
+          <b>Mature</b>
+                  , 
+          <b>Smut</b>
+                        , 
+          <span>Adaptation</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011234" >Ch.28</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/106600/stealing-the-lady-s-heart" >
+    <img src="https://xfs-207.batcg.com/thumb/W300/ampi/cde/cde9a5089fd0d2bbb505efa96f2a03a2a261eed1_400_600_50702.jpeg?acc=d3gi-nTdT1xtD1GogksqGg&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/106600/stealing-the-lady-s-heart" >Stealing the Lady&#39;s Heart</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Josei</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Drama</span>
+                  , 
+          <span>Fantasy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Historical</span>
+                  , 
+          <span>Romance</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011233" >Ch.17</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>              
+  
+<div class="col item line-b is-hot no-flag">
+  <a class="item-cover" href="/series/80312/his-devilish-new-hire" >
+    <img src="https://xfs-210.batcg.com/thumb/W300/ampi/606/606b0e19c6eb77e3c497c7deded1eb14dce1a1a7_420_610_127030.jpeg?acc=xfICUFVL1PSop3-Si51FbQ&amp;exp=1658358048" class="rounded"/>
+  </a>
+  <div class="item-text">
+    
+    <a class="item-title" href="/series/80312/his-devilish-new-hire" >His Devilish New Hire</a>
+
+    
+    
+    
+    
+    
+    <div class="item-genre">
+      
+              
+                  <span>Korean</span>
+              
+                      , 
+          <span>Manhwa</span>
+                  , 
+          <span>Webtoon</span>
+                        , 
+          <u>Shoujo</u>
+                              , 
+          <span>Adaptation</span>
+                  , 
+          <span>Comedy</span>
+                  , 
+          <span>Full Color</span>
+                  , 
+          <span>Office Workers</span>
+                  , 
+          <span>Romance</span>
+                  , 
+          <span>Slice of Life</span>
+            </div>
+
+    
+                      <div class="item-volch">
+        <a class="visited" href="/chapter/2011232" >Ch.77</a>
+        <div>
+          
+                          <a class="me-2" href="/user/423375/guessxwho">
+                <img class="rounded-circle avatar-sm" src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+              </a>
+                                    
+                    <i>25 mins ago</i>
+        </div>
+      </div>
+    
+    
+      </div>
+</div>          </div>
+          <div v-cloak class="mt-3 d-flex justify-content-center load-more">
+        <button type="button" v-if="loading == 0" class="btn btn-lg btn-block btn-warning" @click="latestLoadMore">Load More</button>
+        <button type="button" v-if="loading == 1" class="btn btn-lg btn-block btn-warning disabled">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </button>
+        <button type="button" v-if="loading == 2" class="btn btn-lg btn-block btn-secondary disabled">No More</button>
+      </div>
+    
+    <div class="mt-4 p-1 alert alert-info overflow-auto">
+      <div>
+        <span>Mirrors:</span>
+                          
+          <a href="https://wto.to">wto.to</a>
+                  ,
+          <a href="https://mangatoto.com">mangatoto.com</a>
+                  ,
+          <a href="https://bato.to">bato.to</a>
+                  ,
+          <a href="https://batotoo.com">batotoo.com</a>
+                  ,
+          <a href="https://mto.to">mto.to</a>
+                  ,
+          <a href="https://battwo.com">battwo.com</a>
+                  ,
+          <a href="https://batotwo.com">batotwo.com</a>
+                  ,
+          <a href="https://comiko.net">comiko.net</a>
+              </div>
+      <div>
+        Discord: <a href="https://mto.to/discord">https://mto.to/discord</a>
+      </div>
+      
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between align-items-baseline line-b-f">
+      <h4>Latest Comments</h4>
+    </div>
+    <div class="mt-4">
+      <iframe id="app-marker/marker-v002/marking/mark-list.html" src="https://webapp.bato.to/marker-v002/marking/mark-list.html?theme=light&appName=btoto&sortBy=new&first=3&showRela=1&appVer=42a06b6aa15d376e2a314b0eccbcd9352a0cbe63" style="background-color: transparent !important; width: 100%;" frameborder="0" scrolling="no" seamless="" height="38"></iframe>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between align-items-baseline line-b-f">
+      <h4>Top Uploaders</h4>
+      <a href="/uploaders">more...</a>
+    </div>
+    <div class="mt-4 row row-cols-4 row-cols-md-6 row-cols-lg-8 row-cols-xl-12 g-0 home-top-uploaders">
+                      <a class="col item" href="/user/420374/user.420374">
+          <img src="https://xfs-222.batcg.com/image/amav/4fb/62b008662a284da322e0abf4.jpg?acc=IDg9yfzi-SeY2dKf3X0rHg&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">forfun</span>
+        </a>
+                      <a class="col item" href="/user/309083/user.309083">
+          <img src="https://xfs-210.batcg.com/image/amav/8fb/5f2834c9be690a39a64a6bf8.jpg?acc=ZkpEdQYMlalnCB-IcWfSZw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Manga01</span>
+        </a>
+                      <a class="col item" href="/user/275627/flomio">
+          <img src="https://xfs-200.batcg.com/image/amav/86a/61a0c11987cdd65651139a68.jpg?acc=cvTS5bvY-LrABphVatVjAw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">FloMio</span>
+        </a>
+                      <a class="col item" href="/user/340419/parpatos">
+          <img src="https://xfs-221.batcg.com/image/amav/55c/6219033ceabed8a9a8e7dc55.jpg?acc=8VEyAP83m0ZkCulre-oj0g&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">parpatos</span>
+        </a>
+                      <a class="col item" href="/user/102062/snarkyoldman">
+          <img src="https://xfs-228.batcg.com/image/amav/5af/5f7df4b89092d2c5a7cf4fa5.jpg?acc=6s7k6Wb3cxvkEhRIoI06ow&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">snarkyoldman</span>
+        </a>
+                      <a class="col item" href="/user/384057/user.384057">
+          <img src="https://xfs-210.batcg.com/image/amav/78f/5f6312193b8147af8548ff87.jpg?acc=8pjo-KcB0YdU7Ulw1UqZ7Q&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">patachok</span>
+        </a>
+                      <a class="col item" href="/user/377717/vikija">
+          <img src="https://xfs-212.batcg.com/image/amav/a9b/620069d510f8571f4deffb9a.jpg?acc=4qFhMuy__bnnxYG0xjRpIQ&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Vikija</span>
+        </a>
+                      <a class="col item" href="/user/713741/linope">
+          <img src="https://xfs-228.batcg.com/image/amav/c45/62d4f7f15968cdd068ae254c.jpg?acc=AK-wI5cnmROT8FcA_dQcXw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">linope</span>
+        </a>
+                      <a class="col item" href="/user/468495/meilin">
+          <img src="https://xfs-202.batcg.com/image/amav/f48/606f6ee0fea3f90a097e584f.jpg?acc=_CccWge3JZ-ioHMtatYb-g&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">meilin</span>
+        </a>
+                      <a class="col item" href="/user/403889/user.403889">
+          <img src="https://xfs-212.batcg.com/image/amav/cc0/628c70ad5180c085373f50cc.jpg?acc=uWp324-rXDI6y6_JwbjZrA&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Lovelyme</span>
+        </a>
+                      <a class="col item" href="/user/819863/fiercedeity64">
+          <img src="https://xfs-225.batcg.com/image/amav/5af/61072548a4cf3c2df9957fa5.jpg?acc=pSuo_9vCaxfc55UCOZgorg&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">FierceDeity64</span>
+        </a>
+                      <a class="col item" href="/user/241750/user.241750">
+          <img src="https://xfs-212.batcg.com/image/amav/4dd/4dd0561b053bf5c37ce171279aa3c5c94838ea7b.jpg?acc=1JAEFH27Z-2RJTYOrCVSVQ&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Shiroe</span>
+        </a>
+                      <a class="col item" href="/user/487003/fleurdelis">
+          <img src="https://xfs-205.batcg.com/image/amav/150/62d4a0d6658463d15407c051.jpg?acc=X8FfjRq1kxT_bOwEf5M4Jw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">fleurdelis</span>
+        </a>
+                      <a class="col item" href="/user/423375/guessxwho">
+          <img src="https://xfs-207.batcg.com/image/amav/d7f/62d2db758afe6ed1639c9f7d.jpg?acc=aNT0od4krysWKkm2t1CoKg&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">guessxwho</span>
+        </a>
+                      <a class="col item" href="/user/921246/1stworldkage">
+          <img src="https://xfs-208.batcg.com/image/amav/69b/62205eb9ef04cda9dda87b96.jpg?acc=NRKEJfqTxOqf-n3C7tj5_g&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">1stWorldKage</span>
+        </a>
+                      <a class="col item" href="/user/617688/bblover">
+          <img src="https://xfs-200.batcg.com/image/amav/94b/62bb8f2d520948948b095b49.jpg?acc=jSPEaaX5T0WTzawARYhf7Q&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">BBLOVER</span>
+        </a>
+                      <a class="col item" href="/user/340137/sashakrista">
+          <img src="https://xfs-224.batcg.com/image/amav/9c9/627552df21a8fa89460859c9.jpg?acc=4buXQJmFiALe1zQqomi6ng&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">SashaKrista</span>
+        </a>
+                      <a class="col item" href="/user/622364/ellie">
+          <img src="https://xfs-209.batcg.com/image/amav/1d0/62d4a33f5968cdd068ae20d1.jpg?acc=vsVtihkMPq52m8-aL4_gBw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">ellie</span>
+        </a>
+                      <a class="col item" href="/user/678525/hikkiii">
+          <img src="https://xfs-201.batcg.com/image/amav/7bc/62cff10923994ccf75e36cb7.jpg?acc=02OpPXT8PUYX17lL9GnmAA&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Hikkiii</span>
+        </a>
+                      <a class="col item" href="/user/447691/nostxlgia">
+          <img src="https://xfs-200.batcg.com/image/amav/d56/629cd027c21b40851822e65d.jpg?acc=KKTzTgLANC7jDHXs1o2alg&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">nostxlgia</span>
+        </a>
+                      <a class="col item" href="/user/409427/pachispa">
+          <img src="https://xfs-200.batcg.com/image/amav/e2f/61016849d5645d3d7bb68f2e.jpg?acc=dz7sjCx5_hinDZRexhctAg&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">pachispa</span>
+        </a>
+                      <a class="col item" href="/user/361597/qxfoxp">
+          <img src="https://xfs-207.batcg.com/image/amav/f7c/6010dd3eed92445b0545cc7f.jpg?acc=Ig8tUUIHTHp87UOxDTfJtA&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">qXFoXp</span>
+        </a>
+                      <a class="col item" href="/user/821067/byleth">
+          <img src="https://xfs-203.batcg.com/image/amav/099/62997972e36c5384ec5c0990.jpg?acc=vvNy_1L5VPx3gN_C0Ngg-g&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">Byleth</span>
+        </a>
+                      <a class="col item" href="/user/846766/kp_poseidon">
+          <img src="https://xfs-208.batcg.com/image/amav/61b/618ac0ba0759e51bcd857b16.jpg?acc=sdUaQCauB123yp3sqS4aQw&amp;exp=1658358048"/>
+          <span class="text-ellipsis-1">KP_Poseidon</span>
+        </a>
+          </div>
+
+    <div class="mt-4 disqus-comments">
+      <div id="disqus_thread"></div>
+    </div>
+
+  </div>
+  
+      </div>
+      <footer class="footer">
+  <div class="container-fluid container-max-width-xl">
+    <div>
+      <a class="text-nowrap" href="/">Home</a>
+    	| <a class="text-nowrap" href="/instructions">Instructions</a>
+            | <a class="text-nowrap" href="/privacy-policy">Privacy Policy</a>
+      | <a class="text-nowrap" href="/terms-of-service">Terms of Service</a>
+      | <a class="text-nowrap" href="/dmca">DMCA</a>
+          	| <a class="text-nowrap" href="mailto:animemark.com@gmail.com?subject=[Bato.To] " title="Contact US By Email">Contact US</a>
+    </div>
+    <span class="small-text">© 2010-2022
+      <a href="//AnimeMark.com">AnimeMark.com</a>, all rights reserved.</span>
+  </div>
+</footer>            <div v-cloak class="notification t">
+  <notification v-for="(msg, idx) of notify_msg_t" :msg="msg" :key="idx"></notification>
+</div>
+<div v-cloak class="notification b">
+  <notification v-for="(msg, idx) of notify_msg_b" :msg="msg" :key="idx"></notification>
+</div>      <back-to-top-btn></back-to-top-btn>
+    </div>
+
+    <script>
+      document.domain = 'bato.to';
+      const _uid = null;
+      const _cfg = {"cver":"22","name":"Bato.To","host":"bato.to","base":"bato.to","static":"styles.amarkcdn.com","imgVer":0,"cssVer":53,"jsgVer":5,"jsmVer":39};
+      const _crs = {"_has_data":0,"_is_outdate":0,"settings_vers":0,"site_theme_mode":0,"site_adult_mode":0,"site_ad_format":0,"history_subject_login":0,"history_subject_local":0,"history_episode_login":0,"history_episode_local":0,"new_window_ajaxact_list":0,"new_window_subject_link":0,"new_window_episode_link":0,"analytic_system_google":0,"analytic_system_baidu":0,"topnav_hide_upload":0,"topnav_hide_discord":0,"topnav_hide_login":0,"topnav_hide_instruction":0,"home_page_my_updates_login":0,"home_page_my_updates_local":0,"home_page_my_history_login":0,"home_page_my_history_local":0,"home_page_popular":0,"comic_page_chap_list_max_height":0,"comic_page_reviews":0,"comic_page_dicsuss":0,"comic_page_discuss_without_epi":0,"comic_page_disqus":0,"comic_page_btn_edit_title":0,"comic_page_btn_edit_middle":0,"comic_page_btn_edit_floating":0,"comic_page_btn_edit_bottom":0,"comic_page_btn_rss_title":0,"comic_page_btn_rss_floating":0,"comic_page_btn_follow_middle":0,"comic_page_btn_follow_floating":0,"comic_page_btn_watch_middle":0,"comic_page_btn_watch_floating":0,"comic_page_btn_mark_middle":0,"read_page_discuss":0,"block_genres_home_page_popular":[],"block_genres_home_page_release":[],"filter_langs_home_page_popular":[],"filter_langs_home_page_release":[]};
+          </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js" integrity="sha256-/9af5HY43atNLQYyCLy6EeTvHu0ntBAd4Yyaw6tVh/c=" crossOrigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js" integrity="sha512-QJsj3afWlCpnQ60XzzYE8Jb3IgHIK1BcGZox9rUSmRRq3Ocz9vQ1yR80eX2/b9jfx/UuT5zYWNdrM8Te/eCMhQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs=" crossOrigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossOrigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossOrigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js" integrity="sha512-wT7uPE7tOP6w4o28u1DN775jYjHQApdBnib5Pho4RB0Pgd9y7eSkAV1BTqQydupYDB9GBhTcQQzyNMPMV3cAew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+        <script src="https://styles.amarkcdn.com/build/jss-btoto_v22.js?673422dbad2e077511c93561c27342cd"></script>
+      <script>
+    const app = new Vue(VueModule_Home());
+  </script>
+  <script>
+    var disqus_config = function () {
+      this.page.identifier = 'browse';
+    };
+  </script>
+  <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://mangawindow.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+  
+
+      <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || {
+    cmd: []
+  };
+  googletag
+    .cmd
+    .push(function () {
+      var interstitialSlot = googletag.defineOutOfPageSlot('/21849154601,10749368/Ad.Plus-Mobile-Interstitial', googletag.enums.OutOfPageFormat.INTERSTITIAL);
+      if (interstitialSlot) 
+        interstitialSlot.addService(googletag.pubads());
+      googletag
+        .pubads()
+        .enableSingleRequest();
+      googletag.enableServices();
+      googletag.display(interstitialSlot);
+    });
+</script>    <div id='fixedban' style='width:100%;margin:auto; text-align:center;float:none;overflow:hidden; display:scroll;position:fixed; bottom:0;z-index:91081;'>
+  <div style='text-align:center;display:block;max-width:970px;height:auto;overflow:hidden;margin:auto'>  
+  <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+  <script>  
+    var gptadslots = [];
+    window.googletag = window.googletag || {cmd:[]};
+  </script>
+  <script>  
+    googletag.cmd.push(function() {
+    var responsiveads = googletag.sizeMapping()
+      .addSize([0,0],[[320,50],[300,75],[300,50]])
+      .addSize([730,200],[[728,90],[468,60]])
+      .addSize([975,200],[[970,90],[728,90],[960,90],[750,100],[950,90],[468,60]])  .build();
+    gptadslots.push(googletag.defineSlot('/21849154601,10749368/Ad.Plus-Anchor', [[320,100]], 'adplus-anchor')
+    .setTargeting('site', ['bato.to'])
+    .defineSizeMapping(responsiveads)
+    .addService(googletag.pubads()));
+    googletag.enableServices();  }); 
+  </script>
+    <div> 
+      <a id='close-fixedban' onclick='document.getElementById(&apos;fixedban&apos;).style.display = &apos;none&apos;;' style='cursor:pointer;'><img src="https://styles.amarkcdn.com/img/adp-arrow-down.svg" alt="advertising" title='Advertising' style='vertical-align:middle;'/></a>
+    </div>
+    <div id='adplus-anchor'>
+      <script>googletag.cmd.push(function() { googletag.display('adplus-anchor'); });</script>
+    </div>
+  </div>
+</div>
+        <script src="//adncdnend.azureedge.net/adtags/bato.adn.js" type="text/javascript" async="async" data-cfasync="false"></script>      
+    
+    
+  <script type="text/javascript" src="//hm.baidu.com/hm.js?32304eb8692c77114cb8a8f7658af78b" async="async"></script>
+  
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RR3840ME7N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-RR3840ME7N');
+  </script>
+
+          
+          
+  </body>
+
+</html>
